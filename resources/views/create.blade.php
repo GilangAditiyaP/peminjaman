@@ -20,6 +20,10 @@
             <th>Kondisi</th>
             <td>{{ $barang->kondisi_barang }}</td>
         </tr>
+        <tr>
+            <th>Lokasi</th>
+            <td>{{ $barang->lokasi_barang }}</td>
+        </tr>
     </table>
 
     <br>
