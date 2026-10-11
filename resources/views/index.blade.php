@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,6 @@
                 <th>No</th>
                 <th>Nama Barang</th>
                 <th>Stock</th>
-                <th>Kondisi</th>
                 <th>Lokasi</th>
                 <th>Aksi</th>
             </tr>
@@ -25,11 +25,13 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $data->nama_barang }}</td>
                     <td>{{ $data->stock_barang }}</td>
-                    <td>{{ $data->kondisi_barang }}</td>
                     <td>{{ $data->lokasi_barang }}</td>
                     <td>
-                      <a href="/pinjam/{{ $data->id }}">Pinjam</a>
-                      <a href="/kembalikan">Kembalikan</a>
+                        <a href="/pinjam/{{ $data->id }}">Pinjam</a>
+
+                        <a href="{{ url('/kembalikan?barang_id=' . $data->id) }}">
+                            Kembalikan
+                        </a>
                     </td>
                 </tr>
             @endforeach

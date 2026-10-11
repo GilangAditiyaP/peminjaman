@@ -3,25 +3,62 @@
 namespace App\Http\Controllers;
 
 use App\Models\Peminjaman;
+use App\Models\Barang;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class KembalikanController extends Controller
 {
- public function balikin()
+    public function balikin(Request $request)
 {
-    $peminjaman = Peminjaman::where('status_dipinjam', true)->get();
+    $query = Peminjaman::where('status_dipinjam', true);
+
+    if ($request->filled('barang_id')) {
+        $query->where('barang_id', $request->barang_id);
+    }
+
+    $peminjaman = $query->get();
 
     return view('balikin', compact('peminjaman'));
 }
 
-public function proses($id)
+        public function proses(Request $request, $id)
 {
-    $peminjaman = Peminjaman::find($id);
+            $request->validate([
+        'kondisi' => 'required|in:Baik,Rusak,Hilang',
+        ]);
 
-    $peminjaman->status_dipinjam = false;
-    $peminjaman->tanggal_dikembalikan = now();
+    DB::transaction(function () use ($request, $id) {
 
-    $peminjaman->save();
+        $peminjaman = Peminjaman::where('id', $id)
+            ->lockForUpdate()
+            ->firstOrFail();
 
-    return redirect('/kembalikan');
+        // Cegah pengembalian transaksi yang sudah selesai
+        if (!$peminjaman->status_dipinjam) {
+            abort(403, 'Peminjaman ini sudah dikembalikan.');
+        }
+
+        $barang = Barang::findOrFail(
+            $peminjaman->barang_id
+        );
+
+        // Stok bertambah jika barang tidak hilang
+        if ($request->kondisi !== 'Hilang') {
+            $barang->increment(
+                'stock_barang',
+                $peminjaman->jumlah
+            );
+        }
+
+        $peminjaman->kondisi = $request->kondisi;
+        $peminjaman->status_dipinjam = false;
+        $peminjaman->tanggal_dikembalikan = now();
+        $peminjaman->save();
+    });
+
+    return redirect('/barang')
+        ->with('success', 'Pengembalian berhasil diproses!');
 }
+
 }
