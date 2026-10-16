@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 
-<body>
+<body data-role="{{ auth()->user()->role ?? 'guest' }}">
     <form method="POST" action="{{ route('logout') }}" style="
     position: fixed;
     top: 20px;
@@ -496,10 +496,9 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=37" defer></script>
     @yield('content')
 
-    <script src="{{ asset('js/main.js') }}" defer></script>
+    <script src="{{ asset('js/main.js') }}?v=38" defer></script>
 
 </body>
 

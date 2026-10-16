@@ -77,6 +77,13 @@ const colors = ["fill-button-1", "fill-button-2", "fill-button-3"];
  
 ];
 
+if (document.body.dataset.role === "petugas") {
+  options.splice(0, options.length,
+    { name: "VERIFIKASI", url: "/petugas/verifikasi", rotation: -20, zIndex: 1, offsetX: -40, offsetY: 25, fontSize: "4.5rem", bannerScaleX: 1.07, bannerScaleY: 3.35 },
+    { name: "KELOLA BARANG", url: "/petugas/barang", rotation: -12, zIndex: 2, offsetX: -65, offsetY: 30, fontSize: "3.7rem", bannerScaleX: 0.96, bannerScaleY: 3.05 }
+  );
+}
+
 const slinkData = [
   {
     numeral: "I",
@@ -539,10 +546,8 @@ function renderOptions() {
       hitbox.addEventListener("click", (e) => {
     setIndex(index);
 
-    if (index === 0) {
-        window.location.href = "/barang";
-    } else if (index === 1) {
-        window.location.href = "/denda";
+    if (options[index] && options[index].url) {
+        window.location.href = options[index].url;
     }
 });
 

@@ -7,6 +7,7 @@
 <body>
 
     <h1>Data Barang</h1>
+    <a href="/peminjam/dashboard/   ">kembali</a>
 
     <table border="1">
         <thead>
