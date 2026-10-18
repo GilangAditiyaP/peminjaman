@@ -1,8 +1,37 @@
-<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ $aksi }} Barang</title></head><body style="font-family:Arial,sans-serif;max-width:650px;margin:35px auto;padding:20px;background:#eef5fb;color:#142238">
-<h1>{{ strtoupper($aksi) }} BARANG</h1>@if($errors->any())<ul style="color:#b91c1c">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>@endif
-<form method="POST" action="{{ $aksi === 'Tambah' ? route('petugas.barang.store') : route('petugas.barang.update', $barang->id) }}" style="display:grid;gap:14px;background:white;padding:20px">@csrf @if($aksi === 'Edit') @method('PUT') @endif
-<label>Nama Barang<input required name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}" style="display:block;width:95%;padding:9px"></label>
-<label>Stok<input required type="number" min="0" name="stock_barang" value="{{ old('stock_barang', $barang->stock_barang ?? 0) }}" style="display:block;width:95%;padding:9px"></label>
-<label>Kondisi<select required name="kondisi_barang" style="display:block;width:99%;padding:9px">@foreach(['baik','rusak ringan','rusak berat'] as $kondisi)<option value="{{ $kondisi }}" @selected(old('kondisi_barang', $barang->kondisi_barang) === $kondisi)>{{ ucfirst($kondisi) }}</option>@endforeach</select></label>
-<label>Lokasi<input required name="lokasi_barang" value="{{ old('lokasi_barang', $barang->lokasi_barang) }}" style="display:block;width:95%;padding:9px"></label>
-<button style="padding:11px;background:#123c64;color:white;border:0">SIMPAN</button><a href="{{ route('petugas.barang') }}">Batal</a></form></body></html>
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $aksi }} Barang</title>
+</head>
+
+<body
+    style="font-family:Arial,sans-serif;max-width:650px;margin:35px auto;padding:20px;background:#eef5fb;color:#142238">
+    <h1>{{ strtoupper($aksi) }} BARANG</h1>@if($errors->any())
+        <ul style="color:#b91c1c">@foreach($errors->all() as $error)
+        <li>{{ $error }}</li>@endforeach
+    </ul>@endif
+    <form method="POST"
+        action="{{ $aksi === 'Tambah' ? route('petugas.barang.store') : route('petugas.barang.update', $barang->id) }}"
+        style="display:grid;gap:14px;background:white;padding:20px">@csrf @if($aksi === 'Edit') @method('PUT') @endif
+        <label>Nama Barang<input required name="nama_barang" value="{{ old('nama_barang', $barang->nama_barang) }}"
+                style="display:block;width:95%;padding:9px"></label>
+        <label>Stok<input required type="number" min="0" name="stock_barang"
+                value="{{ old('stock_barang', $barang->stock_barang ?? 0) }}"
+                style="display:block;width:95%;padding:9px"></label>
+        <label>Kondisi<select required name="kondisi_barang"
+                style="display:block;width:99%;padding:9px">@foreach(['baik', 'rusak ringan', 'rusak berat'] as $kondisi)
+                    <option value="{{ $kondisi }}" @selected(old('kondisi_barang', $barang->kondisi_barang) === $kondisi)>
+                        {{ ucfirst($kondisi) }}
+                </option>@endforeach
+            </select></label>
+        <label>Lokasi<input required name="lokasi_barang" value="{{ old('lokasi_barang', $barang->lokasi_barang) }}"
+                style="display:block;width:95%;padding:9px"></label>
+        <button style="padding:11px;background:#123c64;color:white;border:0">SIMPAN</button><a
+            href="{{ route('petugas.barang') }}">Batal</a>
+    </form>
+</body>
+
+</html>

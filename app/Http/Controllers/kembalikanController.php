@@ -11,13 +11,19 @@ class KembalikanController extends Controller
 {
     public function balikin(Request $request)
 {
-    $query = Peminjaman::where('status_dipinjam', true);
+    $query = Peminjaman::with('barang')->where('status_dipinjam', true);
+
+    // Peminjam hanya boleh melihat pinjamannya sendiri.
+    // Petugas dapat melihat semua pinjaman aktif.
+    if (auth()->user()->role !== 'petugas') {
+        $query->where('user_id', auth()->id());
+    }
 
     if ($request->filled('barang_id')) {
         $query->where('barang_id', $request->barang_id);
     }
 
-    $peminjaman = $query->get();
+    $peminjaman = $query->latest()->get();
 
     return view('balikin', compact('peminjaman'));
 }
@@ -33,6 +39,11 @@ class KembalikanController extends Controller
         $peminjaman = Peminjaman::where('id', $id)
             ->lockForUpdate()
             ->firstOrFail();
+
+        // Peminjam tidak boleh memproses pengembalian milik pengguna lain.
+        if (auth()->user()->role !== 'petugas' && $peminjaman->user_id !== auth()->id()) {
+            abort(403, 'Pinjaman ini bukan milik akun Anda.');
+        }
 
         // Cegah pengembalian transaksi yang sudah selesai
         if (!$peminjaman->status_dipinjam) {

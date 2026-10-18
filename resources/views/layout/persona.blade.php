@@ -299,7 +299,7 @@
             <!-- Bio Explanations in English (Frontend Design only, Persona 3 Reload inspired, zero dashes) -->
             <div class="p3r-about-bio">
               <p class="p3r-about-p">
-                Hi! I am <strong>Ilham Ziqri</strong>, a high school student at <strong>SMAN 1 BATI-BATI</strong> with a passionate focus on frontend design and web development.
+                Hi! I am <strong>gilang</strong>, a high school student at <strong>SMAN 1 BATI-BATI</strong> with a passionate focus on frontend design and web development.
               </p>
               <p class="p3r-about-p">
                 I specialize purely in frontend design, crafting clean layouts, modern typography, and responsive web interfaces. This portfolio was built with inspiration from the aesthetic and dynamic motion of <em>Persona 3 Reload</em>.
