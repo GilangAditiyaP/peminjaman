@@ -22,5 +22,7 @@ class Peminjaman extends Model
         'tanggal_dikembalikan',
         'status_dipinjam',
         'status_verifikasi',
+        'denda',
+        'catatan_denda',
     ];
 }

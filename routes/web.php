@@ -7,6 +7,7 @@ use App\Http\Controllers\BarangController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\KembalikanController;
 use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\DendaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,6 +33,8 @@ Route::middleware(['auth', 'role:petugas'])->prefix('petugas')->name('petugas.')
     Route::get('/barang/tambah', [PetugasController::class, 'createBarang'])->name('barang.create');
     Route::post('/barang', [PetugasController::class, 'storeBarang'])->name('barang.store');
     Route::get('/barang/{id}/edit', [PetugasController::class, 'editBarang'])->name('barang.edit');
+    Route::get('/denda', [DendaController::class, 'petugas'])->name('denda.index');
+    Route::post('/denda/{id}', [DendaController::class, 'tetapkan'])->name('denda.tetapkan');
     Route::put('/barang/{id}', [PetugasController::class, 'updateBarang'])->name('barang.update');
     Route::delete('/barang/{id}', [PetugasController::class, 'hapusBarang'])->name('barang.destroy');
 });
@@ -42,6 +45,7 @@ Route::middleware(['auth', 'role:peminjam'])->prefix('peminjam')->name('peminjam
         return view('peminjam.dashboard');
     })->name('dashboard');
     Route::get('/peminjaman/menunggu', [PeminjamanController::class, 'menunggu'])->name('peminjaman.menunggu');
+    Route::get('/denda', [DendaController::class, 'peminjam'])->name('denda');
 });
 
 // Route barang, peminjaman, dan pengembalian

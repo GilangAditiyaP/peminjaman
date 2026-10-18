@@ -13,18 +13,9 @@
 </head>
 
 <body data-role="{{ auth()->user()->role ?? 'guest' }}">
-    <form method="POST" action="{{ route('logout') }}" style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 99999;
-">
-    @csrf
-
-    <button type="submit">
-        LOGOUT
-    </button>
-</form>
+    <form id="persona-logout-form" method="POST" action="{{ route('logout') }}" hidden>
+        @csrf
+    </form>
  <!-- Mobile / Small Screen Notification -->
   <div class="mobile-warning">
     <p>Sorry, this website is not supported for your device.</p>
@@ -108,9 +99,9 @@
   </main>
 
   <!-- Preloaded Audio Elements for Instant Zero-Delay Playback -->
-  <audio id="sfx-menu-utama-el" src="sfx/menu-utama.mp3" preload="none"></audio>
-  <audio id="sfx-navigation-el" src="sfx/navigation.wav" preload="none"></audio>
-  <audio id="sfx-close-menu-el" src="sfx/close-menu.mp3" preload="none"></audio>
+<audio id="sfx-menu-utama-el" src="{{ asset('sfx/menu-utama.mp3') }}" preload="none"></audio>
+<audio id="sfx-navigation-el" src="{{ asset('sfx/navigation.wav') }}" preload="none"></audio>
+<audio id="sfx-close-menu-el" src="{{ asset('sfx/close-menu.mp3') }}" preload="none"></audio>
 
   <!-- Circle Page Transition Anchor Container -->
   <div id="wavy-transition-portal" class="wavy-transition-portal" aria-hidden="true" style="display: none;"></div>
@@ -299,7 +290,7 @@
             <!-- Bio Explanations in English (Frontend Design only, Persona 3 Reload inspired, zero dashes) -->
             <div class="p3r-about-bio">
               <p class="p3r-about-p">
-                Hi! I am <strong>gilang</strong>, a high school student at <strong>SMAN 1 BATI-BATI</strong> with a passionate focus on frontend design and web development.
+                Hi! I am <strong>gilang</strong>, a high school student at <strong>SMKS mahaputra</strong> with a passionate focus on frontend design and web development.
               </p>
               <p class="p3r-about-p">
                 I specialize purely in frontend design, crafting clean layouts, modern typography, and responsive web interfaces. This portfolio was built with inspiration from the aesthetic and dynamic motion of <em>Persona 3 Reload</em>.

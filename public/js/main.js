@@ -45,7 +45,8 @@ const colors = ["fill-button-1", "fill-button-2", "fill-button-3"];
     },
   {
     name: "CEK DENDA",
-    description: "View Technical Abilities & Stack",
+    url: "/peminjam/denda",
+    description: "Lihat denda barang rusak atau hilang",
     rotation: -12,
     zIndex: 2,
     offsetX: -65,
@@ -80,8 +81,12 @@ const colors = ["fill-button-1", "fill-button-2", "fill-button-3"];
 if (document.body.dataset.role === "petugas") {
   options.splice(0, options.length,
     { name: "VERIFIKASI", url: "/petugas/verifikasi", rotation: -20, zIndex: 1, offsetX: -40, offsetY: 25, fontSize: "4.5rem", bannerScaleX: 1.07, bannerScaleY: 3.35 },
-    { name: "KELOLA BARANG", url: "/petugas/barang", rotation: -12, zIndex: 2, offsetX: -65, offsetY: 30, fontSize: "3.7rem", bannerScaleX: 0.96, bannerScaleY: 3.05 }
+    { name: "KELOLA BARANG", url: "/petugas/barang", rotation: -12, zIndex: 2, offsetX: -65, offsetY: 30, fontSize: "3.7rem", bannerScaleX: 0.96, bannerScaleY: 3.05 },
+    { name: "DENDA", url: "/petugas/denda", rotation: -9, zIndex: 3, offsetX: -45, offsetY: 20, fontSize: "4.4rem", bannerScaleX: 1.0, bannerScaleY: 3.0 },
+    { name: "LOGOUT", action: "logout", rotation: -7, zIndex: 4, offsetX: -35, offsetY: 15, fontSize: "4.4rem", bannerScaleX: 1.0, bannerScaleY: 3.0 }
   );
+} else {
+  options.push({ name: "LOGOUT", action: "logout", rotation: -7, zIndex: 3, offsetX: -35, offsetY: 15, fontSize: "4.4rem", bannerScaleX: 1.0, bannerScaleY: 3.0 });
 }
 
 const slinkData = [
@@ -546,8 +551,11 @@ function renderOptions() {
       hitbox.addEventListener("click", (e) => {
     setIndex(index);
 
-    if (options[index] && options[index].url) {
-        window.location.href = options[index].url;
+    const selectedOption = options[index];
+    if (selectedOption && selectedOption.action === "logout") {
+        document.getElementById("persona-logout-form")?.requestSubmit();
+    } else if (selectedOption && selectedOption.url) {
+        window.location.href = selectedOption.url;
     }
 });
 
@@ -1241,15 +1249,23 @@ function closeModal() {
 
 // Option Confirmation Dispatcher (Strictly 4 Options: PROJECT, SKILLS, ABOUT, CONTACT)
 function handleOptionConfirm(index, clickEvent) {
-  if (index === 0) {
-    window.location.href = "/barang";
-  } else if (index === 1) {
-    openSkillPage(clickEvent);
-  } else if (index === 2) {
-    openAboutPage(clickEvent);
-  } else if (index === 3) {
-    openContactPage(clickEvent);
+  const selectedOption = options[index];
+  if (!selectedOption) return;
+
+  if (selectedOption.action === "logout") {
+    document.getElementById("persona-logout-form")?.requestSubmit();
+    return;
   }
+
+  if (selectedOption.url) {
+    window.location.href = selectedOption.url;
+    return;
+  }
+
+  // Keep the original Persona menu behavior for any legacy options without a URL.
+  if (index === 1) openSkillPage(clickEvent);
+  else if (index === 2) openAboutPage(clickEvent);
+  else if (index === 3) openContactPage(clickEvent);
 }
 // --------------------------------------------------------------------------
 // 11. Background Video Flow in Menu Utama (Intro -> Loop Seamless Cut)
